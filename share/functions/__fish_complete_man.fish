@@ -63,8 +63,11 @@ function __fish_complete_man
                 '
 
         # Fish commands are not given by apropos
-        set -l files $__fish_datadir/man/man1/*.1
-        string replace -r '.*/([^/]+)\.1$' '$1\t1: fish command' -- $files
+        # Only included when section is empty or 1
+        if test "$section" = "[^)]*" -o "$section" = "1[^)]*"
+          set -l files $__fish_datadir/man/man1/*.1
+          string replace -r '.*/([^/]+)\.1$' '$1\t1: fish command' -- $files
+        end
     else
         return 1
     end
